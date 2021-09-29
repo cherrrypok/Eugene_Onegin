@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define MAXLINE 5000
-#define MAXLINES 1000
+#define MAXLINES 9999
 
 struct String {
     char* str;
