@@ -8,39 +8,61 @@ struct String {
     int len;
 };
 
+enum Types_of_Sorting {
+    SORTING_FROM_THE_BEGIN,
+    SORTING_FROM_THE_END,
+    SORTING_FROM_POINTERS
+};
+
 int getline(char* s, int maxsize, FILE *File);
 int min(int a, int b);
 int swap(struct String* lineptr, int a, int b);
 int length_string(char* str);
+int next_letter(char* str, int* i);
 
 int Read_strings(struct String* lineptr, int maxsize, int* lines, FILE *File);
 int Write_strings(struct String* lineptr, int* lines);
-int quicksort(struct String* lineptr, int left, int right, int type);
-int partition(struct String* lineptr, int left, int right);
-int Comp_strings(struct String a, struct String b, int type); // <0 a < b  >0 a >b
+int Output_Result(struct String* lineptr, int maxsize, int* lines, FILE *File);
+int quicksort(struct String* lineptr, int left, int right, enum Types_of_Sorting type);
+int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting type);
+int Comp_strings(struct String a, struct String b, enum Types_of_Sorting type); // <0 a < b  >0 a >b
 
 int Unit_tests(struct String* lineptr); //1 - сортировка с начала 2 - сортировка с конца
-int Unit_tests_Comp(struct String* lineptr, int type);
-
+int Unit_tests_Comp(struct String* lineptr, enum Types_of_Sorting type);
 
 int main() {
-    FILE *File = fopen("text_input.txt", "r");
-    int lines = 0, type = 1;
+    FILE *File = fopen("text_input_punctuation.txt", "r");
+    int lines = 0;
     struct String lineptr[MAXLINES];
-
     Read_strings(lineptr, MAXLINES, &lines, File);
-    quicksort(lineptr, 0, lines, 2);
-    Write_strings(lineptr, &lines);
-    //printf("%d\n", lines);
+
+    printf("main");
+    //printf("UUUUnit");
     //Unit_tests(lineptr);
-    //Unit_tests_Comp(lineptr, type);
+    //Output_Result(lineptr, MAXLINES, &lines, File);
+}
+
+int Output_Result(struct String* lineptr, int maxsize, int* lines, FILE *File){
+    printf("***1\n");
+    quicksort(lineptr, 0, *lines - 1, SORTING_FROM_THE_BEGIN);
+    Write_strings(lineptr, lines);
+
+    printf("\n");
+
+    printf("***2\n");
+    quicksort(lineptr, 0, *lines - 1, SORTING_FROM_THE_END);
+    Write_strings(lineptr, lines);
+
+    printf("\n");
+
+    printf("***3\n");
+    quicksort(lineptr, 0, *lines - 1, SORTING_FROM_POINTERS);
+    Write_strings(lineptr, lines);
 }
 
 int Unit_tests(struct String* lineptr) {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++)
         printf("%d, %p, %s\n", lineptr[i].len, lineptr[i].str, lineptr[i].str);
-    }
-
 }
 
 int getline(char* s, int maxsize, FILE *File) {
@@ -73,43 +95,83 @@ int length_string(char* str){
     return len;
 }
 
+int next_letter(char* str, int* i){
+    while ((str[*i] >= 'A' && str[*i] <= 'Z' || str[*i] >= 'a' && str[*i] <= 'z') == 0)
+        --*i;
+    return str[*i];
+}
+
 int Read_strings(struct String* lineptr, int maxsize, int* lineptr_index, FILE *File) {
-    int len = 0;
-    char* line = (char*)calloc(MAXLINE, sizeof(char));
-    //printf("%p %s\n", line, line);
+    fseek(File, 0, SEEK_END);
+    int sizeText = ftell(File);
+    fseek(File, 0, SEEK_SET);
 
-    while (--maxsize, (len = getline(line, MAXLINE, File)) > 0) {
-        lineptr[*lineptr_index].str = line;
-        lineptr[*lineptr_index].len = len;
-        //printf("%d, &d\n", sizeof(line), sizeof(lineptr[lineptr_index++]));
-        //printf("%p %s %d\n", line, line, len);
-        //printf("%d, %p, %s\n", lineptr[*lineptr_index].len, lineptr[*lineptr_index].str, lineptr[*lineptr_index].str);
+    //printf("%d\n", sizeText);
 
-        ++* lineptr_index;
-        line = calloc(MAXLINE, sizeof(char));
+    char* Text = (char *)calloc(sizeText, sizeof(char));
+    fread(Text, sizeText, sizeof(char), File);
+
+    //printf("%s\n", Text);
+
+    int len_string = 0, Text_index = 0;
+
+    while(Text[Text_index] != EOF){
+        if (Text[Text_index] == '\n'){
+            lineptr[*lineptr_index].len = len_string;
+            lineptr[*lineptr_index].str = Text + Text_index - len_string;
+            len_string = 0;
+            Text[Text_index] = '\0';
+
+            printf("%s %d\n", lineptr[*lineptr_index].str, lineptr[*lineptr_index].len);
+            (*lineptr_index)++;
+
+        }
+        else{
+            len_string++;
+        }
+        Text_index++;
     }
+
+
+    lineptr[*lineptr_index].len = len_string;
+    lineptr[*lineptr_index].str = Text + Text_index - len_string;
+
+    printf("21111 %s %d\n", lineptr[*lineptr_index].str, lineptr[*lineptr_index].len);
+    return (*lineptr_index)--;
 }
 
 int Write_strings(struct String* lineptr, int* lines) {
     for (int i = 0; i < *lines; i++)
-        printf("%s", lineptr[i].str);
+        printf("%s\n", lineptr[i].str);
 }
 
-int quicksort(struct String* lineptr, int left, int right, int type){
-    struct String tmp; //!!инициализация
-    for (int i = left; i < right; i++){
-        for(int j = i + 1; j < right; j++){
-            if (Comp_strings(lineptr[i], lineptr[j], type) > 0)
-                swap(lineptr, i, j);
-        }
+int quicksort(struct String* lineptr, int left, int right, enum Types_of_Sorting type){
+    if (left < right){
+        int mid = partition(lineptr, left, right, type);
+        quicksort(lineptr, left, mid, type);
+        quicksort(lineptr, mid + 1, right, type);
     }
 }
 
-int Comp_strings(struct String struct_a, struct String struct_b, int type){
+int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting type){
+    struct String mid = lineptr[(left + right) / 2];
+    while (left <= right){
+        while(Comp_strings(lineptr[left], mid, type) < 0)
+            left++;
+        while(Comp_strings(lineptr[right], mid, type) > 0)
+            right--;
+        if (left >= right)
+            break;
+        swap(lineptr, left++, right--);
+    }
+    return right;
+}
+
+int Comp_strings(struct String struct_a, struct String struct_b, enum Types_of_Sorting type){
     char* a = struct_a.str;
     char* b = struct_b.str;
     int i = 0;
-    if (type == 1) {
+    if (type == SORTING_FROM_THE_BEGIN) {
         for (i = 0; a[i] == b[i]; i++){
             if (a[i] == '\0')
                 return 0;
@@ -117,12 +179,11 @@ int Comp_strings(struct String struct_a, struct String struct_b, int type){
         return a[i] - b[i];
     }
 
-    if (type == 2) {
+    if (type == SORTING_FROM_THE_END) {
         int i_a = length_string(a);
         int i_b = length_string(b);
         int index = min(i_a, i_b);
-        //printf("%d", index);
-        for (i = index; i > 0 && a[i_a] == b[i_b]; i--){
+        for (i = index; i > 0 && next_letter(a, &i_a) == next_letter(b, &i_b); i--){
             i_a--;
             i_b--;
             if (i == 0)
@@ -130,13 +191,17 @@ int Comp_strings(struct String struct_a, struct String struct_b, int type){
         }
         return a[i_a] - b[i_b];
     }
+
+    if (type == SORTING_FROM_POINTERS) {
+        return struct_a.str - struct_b.str;
+    }
 }
 
-int Unit_tests_Comp(struct String* lineptr, int type){
+int Unit_tests_Comp(struct String* lineptr, enum Types_of_Sorting type){
     struct String a, b;
     a.str = "babc"; a.len = 4;
     b.str = "abc"; b.len = 3;
-    int res = Comp_strings(a, b, 1);
+    int res = Comp_strings(a, b, type);
     if (res < 0)
         printf("%s < %s\n", a.str, b.str);
     else if (res == 0)
