@@ -11,5 +11,4 @@ int main() {
 
     Read_strings(lineptr, &lines, File);
     Output_Result(lineptr, &lines, File);
-    printf("Hm OK&");
 }

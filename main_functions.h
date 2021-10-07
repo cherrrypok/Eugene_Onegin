@@ -10,7 +10,6 @@ enum Types_of_Sorting {
 };
 
 int Read_strings(struct String* lineptr, int* lines, FILE *File);
-
 /** ****************************************************************************
 * @brief read text from the FILE
 * @param lineptr array of structures consisting of strings and their lengths
@@ -22,7 +21,6 @@ int Read_strings(struct String* lineptr, int* lines, FILE *File);
 */
 
 int Write_strings(struct String* lineptr, int* lines);
-
 /** ****************************************************************************
 * @brief prints lines of array contents
 * @param lineptr array of structures consisting of strings and their lengths
@@ -33,7 +31,6 @@ int Write_strings(struct String* lineptr, int* lines);
 */
 
 int Output_Result(struct String* lineptr, int* lines, FILE *File);
-
 /** ****************************************************************************
 * @brief prints the original source text sorted by condition
 * @param lineptr array of structures consisting of strings and their lengths
@@ -45,5 +42,4 @@ int Output_Result(struct String* lineptr, int* lines, FILE *File);
 * Third printing -- lines are sorted by pi addresses (printed in the original order).
 * */
 
-int Unit_tests(struct String* lineptr);
-int Unit_tests_Comp(struct String* lineptr, enum Types_of_Sorting type);
+int Unit_tests();

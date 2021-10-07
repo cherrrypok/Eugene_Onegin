@@ -20,11 +20,6 @@ int Output_Result(struct String* lineptr, int* lines, FILE *File){
     Write_strings(lineptr, lines);
 }
 
-int Unit_tests(struct String* lineptr) {
-    for (int i = 0; i < 10; i++)
-        printf("%d, %p, %s\n", lineptr[i].len, lineptr[i].str, lineptr[i].str);
-}
-
 int Read_strings(struct String* lineptr, int* lineptr_index, FILE *File) {
     int sizeText = sizeTextFile_in_Char(File);
 
@@ -62,18 +57,11 @@ int Write_strings(struct String* lineptr, int* lines) {
         printf("%s\n", lineptr[i].str);
 }
 
-int Unit_tests_Comp(struct String* lineptr, enum Types_of_Sorting type){
-    struct String a, b;
-    a.str = "And yet don't look too good, nor talk too wise:";
-    a.len = length_string(a.str);
-    b.str = "Or being lied about, don't deal in lies,";
-    b.len = length_string(b.str);
+int Unit_tests() {
+    FILE *File1_IN = fopen("Unit1_IN.txt", "r");
+    FILE *File1_Result = fopen("Unit1_IN.txt", "w");
+    FILE *File1_OUT = fopen("Unit1_OUT.txt", "r");
 
-    int res = Comp_strings(a, b, type);
-    if (res < 0)
-        printf("%s < %s\n", a.str, b.str);
-    else if (res == 0)
-        printf("%s = %s\n", a.str, b.str);
-    else
-        printf("%s > %s\n", a.str, b.str);
+    //FILE *File2 = fopen("Unit_test2.txt", "r");
+    //FILE *File3 = fopen("Unit_test3.txt", "r");
 }
