@@ -8,7 +8,7 @@ int quicksort(struct String* lineptr, int left, int right, enum Types_of_Sorting
     }
 }
 
-int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting type){
+int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting type){ // сортировка общая. для каждого типа. void*
     struct String mid = lineptr[(left + right) / 2];
     while (left <= right){
         while(Comp_strings(lineptr[left], mid, type) < 0)
@@ -30,14 +30,19 @@ int next_letter(char* str, int* i){
 }
 
 int Comp_strings(struct String struct_a, struct String struct_b, enum Types_of_Sorting type){
-    char* a = struct_a.str;
-    char* b = struct_b.str;
+    char* a = tolower(struct_a.str);
+    char* b = tolower(struct_b.str);
     int i = 0;
     if (type == SORTING_FROM_THE_BEGIN) {
         for (i = 0; a[i] == b[i]; i++){
-            if (a[i] == '\0')
+            if (a[i] == '\0'){
+                free(a);
+                free(b);
                 return 0;
+            }
         }
+        free(a);
+        free(b);
         return a[i] - b[i];
     }
 
@@ -49,10 +54,14 @@ int Comp_strings(struct String struct_a, struct String struct_b, enum Types_of_S
         for (i = index; i > 0 && next_letter(a, &i_a) == next_letter(b, &i_b); i--){
             i_a--;
             i_b--;
-            if (i == 0)
+            if (i == 0){
+                free(a);
+                free(b);
                 return 0;
+            }
         }
-
+        free(a);
+        free(b);
         return a[i_a] - b[i_b];
     }
 

@@ -28,3 +28,6 @@ int sizeTextFile_in_Char(FILE* File);
 * @brief returns the length tipe char of the string
 * @param File file for counting characters
 */
+
+char* tolower(char* str);
+int sizeTextFile_in_string(char* text);

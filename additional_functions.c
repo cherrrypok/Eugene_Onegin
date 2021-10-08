@@ -19,10 +19,34 @@ int length_string(char* str){
     return --len;
 }
 
-int sizeTextFile_in_Char(FILE* File){
-    fseek(File, 0, SEEK_END);
-    int sizeText = ftell(File);
-    fseek(File, 0, SEEK_SET);
+int sizeTextFile_in_Char(FILE* file){ //assert
+    fseek(file, 0, SEEK_END);
+    int sizeText = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
     return sizeText;
+}
+
+int sizeTextFile_in_string(char* text){
+    int count = 0, index = 0;
+    while (text[index] != '\0'){
+        if (text[index] == '\n')
+            count++;
+        index++;
+    }
+    return ++count;
+}
+
+char* tolower(char* str){
+    int len = length_string(str);
+    char* res = (char *)calloc (len + 1, sizeof(char));
+    int i = 0;
+    for (i; i < len; i++){
+        if (str[i] >= 'A' && str[i] <= 'Z')
+            res[i] = str[i] - 'A' + 'a';
+        else
+            res[i] = str[i];
+    }
+    res[i] = '\0';
+    return res;
 }

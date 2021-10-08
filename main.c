@@ -5,10 +5,17 @@
 #define MAXLINES 9999
 
 int main() {
-    FILE *File = fopen("text_input_punctuation.txt", "r");
+    /*
+    FILE *file = fopen("text_input_punctuation.txt", "r"); //проверка на возврат. с маленькой. аргумент комендой строки. Ctor
     int lines = 0;
-    struct String lineptr[MAXLINES];
+    struct String lineptr[MAXLINES] = {}; //размер через файл
+    */
+    FILE *file = fopen("text_input_punctuation.txt", "r"); //проверка на возврат. с маленькой. аргумент комендой строки. Cto
+    int lines = 0;
+    struct String* lineptr = Ctor(file, &lines);
+    printf("1\n");
+    printf("%p\n", lineptr);
 
-    Read_strings(lineptr, &lines, File);
-    Output_Result(lineptr, &lines, File);
+    Output_Result(lineptr, &lines, file);
+    return 0;
 }

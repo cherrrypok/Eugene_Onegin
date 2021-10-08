@@ -9,7 +9,9 @@ enum Types_of_Sorting {
     SORTING_FROM_POINTERS
 };
 
-int Read_strings(struct String* lineptr, int* lines, FILE *File);
+char* Ctor(FILE *file, int *count_strings); //добавить документацию
+
+int Read_strings(struct String* lineptr, int* lineptr_index, char *text); //поменять документашку
 /** ****************************************************************************
 * @brief read text from the FILE
 * @param lineptr array of structures consisting of strings and their lengths
