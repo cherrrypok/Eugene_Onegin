@@ -1,28 +1,35 @@
-struct String {
+struct String
+{
     char* str;
     int len;
 };
 
-enum Types_of_Sorting {
+enum Types_of_Sorting
+{
     SORTING_FROM_THE_BEGIN,
     SORTING_FROM_THE_END,
     SORTING_FROM_POINTERS
 };
 
-char* Ctor(FILE *file, int *count_strings); //добавить документацию
+/*
+enum Errors{
 
-int Read_strings(struct String* lineptr, int* lineptr_index, char *text); //поменять документашку
+};
+*/
+
+struct String* Ctor (char *file_name, int *count_strings); //добавить документацию
+
+int Read_strings (struct String* lineptr, char *text); //поменять документашку
 /** ****************************************************************************
 * @brief read text from the FILE
 * @param lineptr array of structures consisting of strings and their lengths
-* @param lines the number of lines in the file
 * @param File file to readd
 *
 * Allocates dynamic memory for the entire file. Conditionally splits the text
 * into strings, writes their array lineptr.
 */
 
-int Write_strings(struct String* lineptr, int* lines);
+int Write_strings (struct String* lineptr, int* lines);
 /** ****************************************************************************
 * @brief prints lines of array contents
 * @param lineptr array of structures consisting of strings and their lengths
@@ -32,7 +39,7 @@ int Write_strings(struct String* lineptr, int* lines);
 * argument lines.
 */
 
-int Output_Result(struct String* lineptr, int* lines, FILE *File);
+int Output_result (struct String* lineptr, int* lines);
 /** ****************************************************************************
 * @brief prints the original source text sorted by condition
 * @param lineptr array of structures consisting of strings and their lengths
@@ -43,5 +50,3 @@ int Output_Result(struct String* lineptr, int* lines, FILE *File);
 * Second printing -- lines are sorted from the end.
 * Third printing -- lines are sorted by pi addresses (printed in the original order).
 * */
-
-int Unit_tests();

@@ -1,4 +1,4 @@
-int quicksort(struct String* lineptr, int left, int right, enum Types_of_Sorting type);
+int Quicksort (struct String* lineptr, int left, int right, enum Types_of_Sorting type);
 /** ****************************************************************************
 * @brief Sorts the incoming array in ascending order
 * @param lineptr array of structures consisting of strings and their lengths
@@ -11,9 +11,9 @@ int quicksort(struct String* lineptr, int left, int right, enum Types_of_Sorting
 * for the left and right parts.
 */
 
-int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting type);
+int Partition (struct String* lineptr, int left, int right, enum Types_of_Sorting type);
 /** ****************************************************************************
-* @brief function quicksort's
+* @brief function Quicksort's
 * @param lineptr array of structures consisting of strings and their lengths
 * @param left pointer to the leftmost element of the array
 * @param right pointer to the rightmost element of the array
@@ -26,7 +26,7 @@ int partition(struct String* lineptr, int left, int right, enum Types_of_Sorting
 * reference, we throw to the left part.
 */
 
-int Comp_strings(struct String a, struct String b, enum Types_of_Sorting type);
+int Comp_strings (struct String a, struct String b, enum Types_of_Sorting type);
 /** ****************************************************************************
 * @brief lexicographically compares two strings
 * @param a string
@@ -39,7 +39,7 @@ int Comp_strings(struct String a, struct String b, enum Types_of_Sorting type);
 * num > 0 if a > b
 */
 
-int next_letter(char* str, int* i);
+int Next_letter (char* str, int* i);
 /** ****************************************************************************
 * @brief finds the next letter character on the left in the string
 * @param str string

@@ -2,20 +2,12 @@
 #include <stdlib.h>
 #include "main_functions.c"
 
-#define MAXLINES 9999
-
-int main() {
-    /*
-    FILE *file = fopen("text_input_punctuation.txt", "r"); //проверка на возврат. с маленькой. аргумент комендой строки. Ctor
+int main () 
+{
+    char* file_name = "text_input.txt";
     int lines = 0;
-    struct String lineptr[MAXLINES] = {}; //размер через файл
-    */
-    FILE *file = fopen("text_input_punctuation.txt", "r"); //проверка на возврат. с маленькой. аргумент комендой строки. Cto
-    int lines = 0;
-    struct String* lineptr = Ctor(file, &lines);
-    printf("1\n");
-    printf("%p\n", lineptr);
+    struct String* lineptr = Ctor (file_name, &lines);
 
-    Output_Result(lineptr, &lines, file);
+    Output_result (lineptr, &lines);
     return 0;
 }
