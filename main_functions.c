@@ -4,16 +4,41 @@
 
 struct String* Ctor (char *file_name, int *count_strings) //аргумент комaндой строки.
 {
-    FILE *file = fopen (file_name, "r"); //проверка на возврат.
+    FILE *file = fopen (file_name, "r");
+    if (file == NULL_PTR)
+    {
+        printf("Error in opening the file\n");
+        return NULL_PTR;
+    }
 
     int count_chars = SizeTextFile_char (file);
-    char* text = (char *)calloc (count_chars, sizeof (char)); //везде проверять на корректность ввода
-    fread (text, count_chars, sizeof (char), file); //fread returns?! если вернул больше MAXLINES
+    char* text = (char *)calloc (count_chars, sizeof (char));
+    if (text == NULL_PTR)
+    {
+        printf("Error in calloc\n");
+        return NULL_PTR;
+    }
+
+    fread (text, count_chars, sizeof (char), file);
+    /*
+    int c = feof (file);
+    if (c == 0);
+    {
+        printf("Error in reading the file\n");
+        printf("%d\n", c);
+        return NULL_PTR;
+    }
+    */
 
     *count_strings = SizeTextFile_string (text);
     struct String* lineptr = (struct String *)calloc (*count_strings, sizeof(struct String));
-    Read_strings (lineptr, text);
+    if (lineptr == NULL_PTR)
+    {
+        printf("Error in calloc\n");
+        return NULL_PTR;
+    }
 
+    Read_strings (lineptr, text);
     fclose (file);
     return lineptr;
 }
@@ -69,4 +94,14 @@ int Write_strings (struct String* lineptr, int* lines)
 {
     for (int i = 0; i < *lines; i++)
         printf ("%s\n", lineptr[i].str); //fprintf <- slow, fwrite <- fast
+}
+
+int Dtor (struct String* lineptr, int* lines) //кто я
+{
+    free (lineptr[0].str);
+    free (lineptr);
+
+    for (int i = 0; i < *lines; i++){
+        printf("%s %d\n", lineptr[i].str, lineptr[i].len);
+    }
 }

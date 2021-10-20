@@ -11,11 +11,13 @@ enum Types_of_Sorting
     SORTING_FROM_POINTERS
 };
 
-/*
-enum Errors{
 
+enum Errors
+{
+    END_OF_FILE = 0,
+    NULL_PTR = 0000000000000000
 };
-*/
+
 
 struct String* Ctor (char *file_name, int *count_strings); //добавить документацию
 
@@ -50,3 +52,5 @@ int Output_result (struct String* lineptr, int* lines);
 * Second printing -- lines are sorted from the end.
 * Third printing -- lines are sorted by pi addresses (printed in the original order).
 * */
+
+int Dtor (struct String* lineptr, int* lines);
